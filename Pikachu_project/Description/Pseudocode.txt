@@ -1,0 +1,254 @@
+typedef pair<int, int> coord
+// The distance between center of 2 consecutive blocks 
+// is 8 units in the horizontal 
+// or 4 units in the vertical 
+
+IMatching (coord block1, coord block2){
+	// 2 blocks lie on 1 vertical line
+	If block1.x = block2.x
+	Then
+		If block1.y > block2.y
+		Then Swap(block1, block2); // we need to traversal from block1 to block2
+		x_coord = block1.x;
+		For (i = block1.y + 4; i < block2.y; i += 4)
+			If State of Coordinate(x_coord, i) != _DELETE
+				Return 0;
+		Return 1;
+////////////////////////////////////////////////////////////////////////////////
+	// 2 block2 lie on 1 horizontal line
+	If block1.y = block2.y
+	Then
+		If block1.x > block2.x
+		Then Swap(block1, block2); // we need to traversal from block1 to block2
+		y_coord = block1.y;
+		For (i = block1.x + 8; i < block2.x; i += 8)
+			If State of Coordinate(i, y_coord) != _DELETE
+				Return 0;
+		Return 1;
+	// if after 2 times of checking is unsuccessful then return not matching   
+	Return 0;
+}
+
+LMatching (coord block1, coord block2){
+	// if can 2 block matching with L shape 
+	// then the corner L shape is place 
+	// where has the coordinate X of block1 and Y block2 or vice versa
+	coord l_corner = {block1.x, block2.y);
+	If IMatching(block1, l_corner) = TRUE and 
+	   IMatching(block2, l_corner) = TRUE
+		Return 1;
+////////////////////////////////////////////////////////////////////////////////
+	l_corner = {block1.y, block2.x);
+	If IMatching(block1, l_corner) = TRUE and 
+	   IMatching(block2, l_corner) = TRUE
+	Then 
+		Return 1;
+	// if after 2 times of checking is unsuccessful then return not matching   
+	Return 0;
+}
+
+ZMatching (coord block1, coord block2){
+	// if can 2 block matching with Z shape 
+	// then there are 2 corner L shape (L1, L2)
+	// L1, L2 has coordinate X equal to block1.x and block2.x respectively
+	// 			  coordinate Y has the range between block1.y and block2.y
+	// or vice versa
+	
+	coord l_corner_1, l_corner_2;
+////////////////////////////////////////////////////////////////////////////////
+	If block1.y > block2.y
+		Then Swap(block1, block2); // we need to traversal from block1 to block2
+	
+	For (i = block1.y + 4; i < block2.y; i += 4)
+		If State of Coordinate(block1.x, i) = _DELETE
+		Then 
+			If State of Coordinate(block2.x, i) = _DELETE
+			Then	
+				l_corner_1 = {block1.x, i};
+				l_corner_2 = {block2.x, i);
+				If IMatching(block1, l_corner_1) = TRUE and
+				   IMatching(block2, l_corner_2) = TRUE and
+				   IMatching(l_corner_1, l_corner_2) =TRUE
+				Then 
+					Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+	If block1.x > block2.x
+		Then Swap(block1, block2); // we need to traversal from block1 to block2
+	
+	For (i = block1.x + 8; i < block2.x; i += 8)
+		If State of Coordinate(i, block1.y) = _DELETE
+		Then 
+			If State of Coordinate(i, block2.y) = _DELETE
+			Then	
+				l_corner_1 = {i, block1.y};
+				l_corner_2 = {i, block2.y};
+				If IMatching(block1, l_corner_1) = TRUE and
+				   IMatching(block2, l_corner_2) = TRUE and
+				   IMatching(l_corner_1, l_corner_2) =TRUE
+				Then 
+					Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+	// if after 2 times of checking is unsuccessful then return not matching
+	Return 0;	
+}
+
+UMatching (coord block1, coord block2){
+	x = coordinate X of top left corner of the board;
+	y = coordinate Y of top left corner of the board;
+	coord u_corner_1;
+	coord u_corner_2;
+////////////////////////////////////////////////////////////////////////////////
+// U matching upward
+	If block1.y > block2.y
+		Then Swap(block1, block2); 
+	
+	For (i = block1.y - 4; i >= y - 4; i -= 4)
+		// the index is out the margin
+		If i = y - 4
+		Then 
+			u_corner_1 = {block1.x , y};
+			u_corner_2 = {block2.x , y};
+			// the case 2 block at the margin
+			If (u_corner_1 = block1 and u_corner_2 = block2)
+			Then 
+				Return 1;
+			// the case 2 block don't need be at the margin 
+			// but the U matching need to go out the margin
+			If (State of u_corner_1 = _DELETE or u_corner_1 = block1) and
+			   State of u_corner_2 = _DELETE
+			Then
+				If IMatching(block1, u_corner_1) = TRUE and
+				   IMatching(block2, u_corner_2) = TRUE
+				Then 
+					Return 1;
+		// normal case
+		u_corner_1 = {block1.x , i};
+		u_corner_2 = {block2.x , i};
+		If State of u_corner_1 = _DELETE and
+		   State of u_corner_1 = _DELETE
+		Then 
+			If IMatching(block1, u_corner_1) = TRUE and
+			   IMatching(block2, u_corner_2) = TRUE and
+			   IMatching(u_corner_1, u_corner_2) =TRUE
+			Then 
+				Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+// U matching downward
+	If block1.y < block2.y
+		Then Swap(block1, block2); 
+	
+	For (i = block1.y + 4; i <= y + size * 4; i += 4)
+		// the index is out the margin
+		If i = y + size * 4
+		Then 
+			u_corner_1 = {block1.x , y + size * 4 - 4};
+			u_corner_2 = {block2.x , y + size * 4 - 4};
+			// the case 2 block at the margin
+			If (u_corner_1 = block1 and u_corner_2 = block2)
+			Then 
+				Return 1;
+			// the case 2 block don't need be at the margin 
+			// but the U matching need to go out the margin
+			If (State of u_corner_1 = _DELETE or u_corner_1 = block1) and
+			   State of u_corner_2 = _DELETE
+			Then
+				If IMatching(block1, u_corner_1) = TRUE and
+				   IMatching(block2, u_corner_2) = TRUE
+				Then 
+					Return 1;
+		// normal case
+		u_corner_1 = {block1.x , i};
+		u_corner_2 = {block2.x , i};
+		If State of u_corner_1 = _DELETE and
+		   State of u_corner_1 = _DELETE
+		Then 
+			If IMatching(block1, u_corner_1) = TRUE and
+			   IMatching(block2, u_corner_2) = TRUE and
+			   IMatching(u_corner_1, u_corner_2) =TRUE
+			Then 
+				Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+// U matching to the left
+	If block1.x > block2.x
+		Then Swap(block1, block2); 
+	
+	For (i = block1.x - 8; i >= x - 8; i -= 8)
+		// the index is out the margin
+		If i = x - 8
+		Then 
+			u_corner_1 = {x , block1.y};
+			u_corner_2 = {x , block1.y};
+			// the case 2 block at the margin
+			If (u_corner_1 = block1 and u_corner_2 = block2)
+			Then 
+				Return 1;
+			// the case 2 block don't need be at the margin 
+			// but the U matching need to go out the margin
+			If (State of u_corner_1 = _DELETE or u_corner_1 = block1) and
+			   State of u_corner_2 = _DELETE
+			Then
+				If IMatching(block1, u_corner_1) = TRUE and
+				   IMatching(block2, u_corner_2) = TRUE
+				Then 
+					Return 1;
+		// normal case
+		u_corner_1 = {i , block1.y};
+		u_corner_2 = {i , block1.y};
+		If State of u_corner_1 = _DELETE and
+		   State of u_corner_1 = _DELETE
+		Then 
+			If IMatching(block1, u_corner_1) = TRUE and
+			   IMatching(block2, u_corner_2) = TRUE and
+			   IMatching(u_corner_1, u_corner_2) =TRUE
+			Then 
+				Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+// U matching to the right
+	If block1.x < block2.x
+		Then Swap(block1, block2); 
+	
+	For (i = block1.x + 8; i <= x + size * 8; i += 8)
+		// the index is out the margin
+		If i = x + size * 8
+		Then 
+			u_corner_1 = {x + size * 8 - 8, block1.y};
+			u_corner_2 = {x + size * 8 - 8, block2.y};
+			// the case 2 block at the margin
+			If (u_corner_1 = block1 and u_corner_2 = block2)
+			Then 
+				Return 1;
+			// the case 2 block don't need be at the margin 
+			// but the U matching need to go out the margin
+			If (State of u_corner_1 = _DELETE or u_corner_1 = block1) and
+			   State of u_corner_2 = _DELETE
+			Then
+				If IMatching(block1, u_corner_1) = TRUE and
+				   IMatching(block2, u_corner_2) = TRUE
+				Then 
+					Return 1;
+		// normal case
+		u_corner_1 = {i, block1.y};
+		u_corner_2 = {i, block2.y};
+		If State of u_corner_1 = _DELETE and
+		   State of u_corner_1 = _DELETE
+		Then 
+			If IMatching(block1, u_corner_1) = TRUE and
+			   IMatching(block2, u_corner_2) = TRUE and
+			   IMatching(u_corner_1, u_corner_2) =TRUE
+			Then 
+				Return 1;
+		Else
+			break;
+////////////////////////////////////////////////////////////////////////////////
+	return 0;
+}

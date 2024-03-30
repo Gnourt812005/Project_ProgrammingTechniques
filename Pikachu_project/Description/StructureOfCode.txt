@@ -1,0 +1,48 @@
+Structure of code
+
+1. Menu (Menu.cpp, Menu.h)
+	- Create the main menu including options related
+	
+2. Background controller (Controller.cpp, Controller.h)
+	- Change color of background and text
+	- Clear the screen 
+	- Change the coordinate of the cursor on screen
+	- Get the input from keyboard
+
+3. Point (Point.cpp, Point.h)
+	**Each block on the board has 2 types of indexes
+		1/ The row and col of the background board (called IBoard)
+		2/ The coordinate (X,Y) of board show on the screen (called IScreen)
+	- Contain the value(pokemon) and coordinate (X,Y) of each block
+	
+4. Board (Board.cpp, Board.h)
+// Build
+	- Create data for the board
+	- Print
+// Get indexes
+	- Convert the IScreen to the IBoard
+	- Convert the IBoard to the IScreen
+	- Get the Value(Pokemon) of each block
+	- Check the state of this block (LOCK, DELETE, NORMAL)
+// Show effect
+	- Highlight the block when the player move to or lock
+	- Unhighlight the block when the player leave or unsuccessful matching
+	- Delete the block and insert the background to this place
+	- Print the I,L,Z or U line between 2 blocks when matching and delete 
+	
+5. Game (Game.cpp, Game.h)
+	Operate and manipulate system during the playing time
+// 
+	- Get profile of player
+	- Show the profile and current score
+	- Save profile of player
+//
+	- Get input from player to move to other block or lock block
+	(combine function in Board and Background controller)
+	- Check if 2 blocks are matching 
+// 
+	- Check if the game is completed
+	- Check if there is any avaliable matching
+	- Show the suggestion if there is any avaliable matching
+	
+	

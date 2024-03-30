@@ -1,0 +1,66 @@
+Function 1: Create and print the start menu on the screen
+Step 1: 
+	1.1: Clear the screen
+	1.2: Print logo, author
+Step 2:
+	2.1: Print the main menu(the menu box, options on the menu) 
+	2.2: 
+		2.2.1: Get the valid input(W/UPARROW for moving to the above option
+								   S/DOWNARROR for moving to below option
+								   ENTER for choosing current option)
+		2.2.2: If the input is ENTER then go to step 3
+		2.2.3: Reprint and unhighlight the last option
+		2.2.4: Reprint and highlight the current option 
+		2.2.5: Go to step 2.2.1
+Step 3:  
+	3.1: Go to the matching option(Function 2, Function 3, Function 4, Function 5, Function 6) 
+	3.2: If current option is Play then go to step 2.2.1
+		 else go to step 1
+		 
+///////////////////////////////////////
+Function 2: 'Play' option
+Step 1: print the play menu over the main menu
+Step 2: Go back to step 3.2 of Function 1
+//////////////////////////////////////
+Function 3: Leader board option
+Step 1: Clear screen
+Step 2: Get data from file containing the data of player
+Step 3: Sort the data in descending order
+Step 4: Print the top 8 player on the screen
+Step 5: Wait until the ENTER is pressed
+Step 6: Go back to step 3.2 of Function 1
+
+//////////////////////////////////////
+Function 4: Help option
+Step 1: Print the valid buttons, rules of game, rule of scoring, Print the name of author
+Step 2: Wait until the ENTER is pressed
+Step 3: Go back to step 3.2 of Function 1
+
+//////////////////////////////////////
+Function 5: Exit option 
+Step 1: Clear screen
+Step 2: Print the Exit menu(Yes and No option)
+Step 3: 
+	3.1: Get the valid input(D/RIGHTARROW for moving to the right option
+							 A/LEFTARROW for moving to left option
+							 ENTER for choosing current option)
+	3.2: If the input is ENTER then go to step 4
+	3.3: Reprint and unhighlight the last option
+	3.4: Reprint and highlight the current option 
+Step 4:
+	If current option is Yes then clear the screen and exit game
+	Else go back to step 3.2 of Function 1
+
+///////////////////////////////////////
+Function 6: 'Easy' option
+Step 1: ...
+
+///////////////////////////////////////
+Function 7: 'Medium' option
+Step 1: ...
+
+//////////////////////////////////////
+Function 8: 'Back' option
+Step 1: Do not thing and go back step 3.2
+	
+		
